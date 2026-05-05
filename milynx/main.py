@@ -1,5 +1,5 @@
 import typer
-from milynx.core.engine import init_project
+from milynx.core.engine import init_project, add_component
 
 app = typer.Typer()
 
@@ -9,8 +9,7 @@ def init(project_type: str):
 
 @app.command()
 def add(component: str):
-    print(f"Add: {component}")
-
+    add_component(component)
 
 def run():
     app()
