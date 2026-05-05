@@ -1,19 +1,17 @@
 import typer
+from milynx.core.engine import init_project
 
 app = typer.Typer()
 
 @app.command()
-def init(name: str):
-    print(f"Init project: {name}")
+def init(project_type: str):
+    init_project(project_type)
 
 @app.command()
 def add(component: str):
     print(f"Add: {component}")
 
-@app.command()
-def explain():
-    print("Explain config")
-    
+
 def run():
     app()
 
