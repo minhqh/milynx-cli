@@ -2,16 +2,34 @@ from milynx.core.registry import REGISTRY
 from milynx.config.presets import PRESETS
 from milynx.core.detector import detect_project_type
 
-def run_init(project_type: str | None):
+def run_init(
+    project_type: str | None,
+    no: str | None,
+    only: str | None
+    ):
+    
     if project_type is None:
         project_type = detect_project_type()
         print(f"[INFO] Detected: {project_type}")
 
     components = PRESETS.get(project_type, PRESETS["base"])
 
+    components = set(components)
+
+    # 1. ONLY mode (override everything)
+    if only:
+        allowed = set(only.split(","))
+        components = components.intersection(allowed)
+
+    # 2. NO mode (remove components)
+    if no:
+        removed = set(no.split(","))
+        components = components - removed
+
+    # execute
     for c in components:
         add_component(c, {"project_type": project_type})
-        
+
 def add_component(name: str, context: dict):
     generator = REGISTRY.get(name)
 

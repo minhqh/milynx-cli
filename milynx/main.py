@@ -9,8 +9,12 @@ def add(component: str):
     add_component(component)
 
 @app.command()
-def init(project_type: str = typer.Argument(None)):
-    run_init(project_type)
+def init(
+    project_type: str = typer.Argument(None),
+    no: str = typer.Option(None, "--no"),
+    only: str = typer.Option(None, "--only")
+    ):
+    run_init(project_type, no, only)
 
 def run():
     app()
