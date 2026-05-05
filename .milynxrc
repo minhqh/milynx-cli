@@ -1,0 +1,9 @@
+{
+  "preset": "api",
+  "project_type": "python",
+  "components": {
+    "docker": true,
+    "makefile": true,
+    "gitignore": true
+  }
+}
