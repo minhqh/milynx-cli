@@ -1,6 +1,6 @@
 import typer
 from milynx.core.engine import  add_component
-from milynx.core.detector import detect_project_type
+from milynx.core.engine import run_init
 
 app = typer.Typer()
 
@@ -10,17 +10,7 @@ def add(component: str):
 
 @app.command()
 def init(project_type: str = typer.Argument(None)):
-    if project_type is None:
-        project_type = detect_project_type()
-        print(f"[INFO] Detected project type: {project_type}")
-    else:
-        print(f"[INFO] Using manual project type: {project_type}")
-
-    context = {"project_type": project_type}
-
-    add_component("gitignore", context)
-    add_component("makefile", context)
-    add_component("docker", context)
+    run_init(project_type)
 
 def run():
     app()
