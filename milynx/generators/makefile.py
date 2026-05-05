@@ -1,6 +1,6 @@
 from pathlib import Path
 
-def generate_makefile(project_type: str = None):
+def generate(context: dict):
     content = """build:
 \tpython main.py
 

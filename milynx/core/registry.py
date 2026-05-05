@@ -1,9 +1,9 @@
-from milynx.generators.gitignore import generate_gitignore
-from milynx.generators.docker import generate_docker
-from milynx.generators.makefile import generate_makefile
+from milynx.generators.gitignore import generate as gitignore
+from milynx.generators.makefile import generate as makefile
+from milynx.generators.docker import generate as docker
 
 REGISTRY = {
-    "gitignore": generate_gitignore,
-    "docker": generate_docker,
-    "makefile": generate_makefile,
+    "gitignore": gitignore,
+    "makefile": makefile,
+    "docker": docker,
 }

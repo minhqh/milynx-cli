@@ -1,13 +1,15 @@
 from pathlib import Path
 
-def generate_gitignore(project_type: str = None):
-    content_map = {
-        "python": "__pycache__/\n.venv/\n*.pyc\n.env\n",
-        "java": "target/\n*.class\n.idea/\n",
-        "node": "node_modules/\n.env\n"
+def generate(context: dict):
+    project_type = context.get("project_type", "python")
+
+    templates = {
+        "python": "__pycache__/\n.venv/\n*.pyc\n",
+        "java": "target/\n*.class\n",
+        "node": "node_modules/\n"
     }
 
-    content = content_map.get(project_type, content_map["python"])
+    content = templates.get(project_type, templates["python"])
 
     path = Path(".gitignore")
 

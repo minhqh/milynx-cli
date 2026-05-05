@@ -1,7 +1,9 @@
 from pathlib import Path
 
-def generate_docker(project_type: str = None):
-    files = {
+def generate(context: dict):
+    project_type = context.get("project_type", "python")
+
+    content = {
         "Dockerfile": """FROM python:3.11-slim
 
 WORKDIR /app
@@ -26,12 +28,11 @@ services:
 """
     }
 
-    for filename, content in files.items():
-        path = Path(filename)
+    path = Path("Dockerfile")
 
-        if path.exists():
-            print(f"[SKIP] {filename} already exists")
-            continue
+    if path.exists():
+        print("[SKIP] Dockerfile already exists")
+        return
 
-        path.write_text(content)
-        print(f"[CREATED] {filename}")
+    path.write_text(content)
+    print("[CREATED] Dockerfile")
