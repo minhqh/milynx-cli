@@ -1,38 +1,38 @@
 from pathlib import Path
+from milynx.core.template_engine import render
+
 
 def generate(context: dict):
-    project_type = context.get("project_type", "python")
+    files = {
+        "Dockerfile": render(
+            "docker",
+            "Dockerfile",
+            {
+                "base_image": context.get("base_image", "python:3.11-slim")
+            }
+        ),
 
-    content = {
-        "Dockerfile": """FROM python:3.11-slim
+        "docker-compose.yml": render(
+            "docker",
+            "docker-compose.yml",
+            {
+                "port": context.get("port", 8000)
+            }
+        ),
 
-WORKDIR /app
-COPY . .
-
-RUN pip install -r requirements.txt
-
-CMD ["python", "main.py"]
-""",
-
-        ".dockerignore": """__pycache__/
-*.pyc
-.venv/
-""",
-
-        "docker-compose.yml": """version: '3.8'
-services:
-  app:
-    build: .
-    ports:
-      - "8000:8000"
-"""
+        ".dockerignore": render(
+            "docker",
+            "dockerignore",
+            {}
+        )
     }
 
-    path = Path("Dockerfile")
+    for filename, content in files.items():
+        path = Path(filename)
 
-    if path.exists():
-        print("[SKIP] Dockerfile already exists")
-        return
+        if path.exists():
+            print(f"[SKIP] {filename}")
+            continue
 
-    path.write_text(content)
-    print("[CREATED] Dockerfile")
+        path.write_text(content, encoding="utf-8")
+        print(f"[CREATED] {filename}")
