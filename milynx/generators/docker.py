@@ -1,6 +1,6 @@
 from pathlib import Path
 
-def generate_docker():
+def generate_docker(project_type: str = None):
     files = {
         "Dockerfile": """FROM python:3.11-slim
 

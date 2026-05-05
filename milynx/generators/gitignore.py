@@ -1,19 +1,19 @@
 from pathlib import Path
 
-TEMPLATE_MAP = {
-    "python": "python.txt",
-    "node": "node.txt",
-    "java": "java.txt",
-    "go": "go.txt",
-    "default": "general.txt"
-}
+def generate_gitignore(project_type: str = None):
+    content_map = {
+        "python": "__pycache__/\n.venv/\n*.pyc\n.env\n",
+        "java": "target/\n*.class\n.idea/\n",
+        "node": "node_modules/\n.env\n"
+    }
 
-def generate_gitignore(project_type: str):
-    template_file = TEMPLATE_MAP.get(project_type, TEMPLATE_MAP["default"])
+    content = content_map.get(project_type, content_map["python"])
 
-    template_path = Path(__file__).parent.parent / "templates/gitignore" / template_file
+    path = Path(".gitignore")
 
-    with open(template_path, "r") as f:
-        content = f.read()
+    if path.exists():
+        print("[SKIP] .gitignore already exists")
+        return
 
-    return content
+    path.write_text(content)
+    print("[CREATED] .gitignore")

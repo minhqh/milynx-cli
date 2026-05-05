@@ -1,19 +1,10 @@
-from milynx.generators.gitignore import generate_gitignore
-from milynx.utils.file_io import write_file
-from milynx.generators.docker import generate_docker
+from milynx.core.registry import REGISTRY
 
-def init_project(project_type: str):
-    print(f"Init project: {project_type}")
+def add_component(name: str, project_type: str = None):
+    generator = REGISTRY.get(name)
 
-    gitignore = generate_gitignore(project_type)
-    write_file(".gitignore", gitignore)
-
-def add_component(name: str):
-    if name == "docker":
-        generate_docker()
-
-    elif name == "gitignore":
-        generate_gitignore()
-
-    else:
+    if not generator:
         print(f"[WARN] Unknown component: {name}")
+        return
+
+    generator(project_type)
